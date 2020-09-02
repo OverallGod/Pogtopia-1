@@ -13,7 +13,7 @@ export class Server
   {
   }
 
-  public isZlibHeaderCorrect(header: number): boolean
+  public isZlibHeaderCorrect(data: Buffer): boolean
   {
     /*
       HEADERS (in bytes/hex):
@@ -23,11 +23,11 @@ export class Server
     */
 
     const headers: number[] = [
-      0x178,    // No compression
+      0x178,  // No compression
       0x9c78, // Default Compression
       0xda78, // Best Compression
     ];
 
-    return headers.includes(header);
+    return headers.includes(data.readUInt16LE()); // lets just read the first 2 bytes of the buffer, that's where the header is located
   }
 }
